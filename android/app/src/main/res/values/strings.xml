@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="app_name">Message Reminder</string>
+    <string name="facebook_app_id">8339002879445292</string>
+    <string name="fb_login_protocol_scheme">fb8339002879445292</string>
+    <string name="facebook_client_token">d6e42e90e7661c3030b85f23daa3a3e8</string>
+
+
+</resources>
