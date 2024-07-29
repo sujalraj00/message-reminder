@@ -109,7 +109,8 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                              onPressed: () {}, child: const Text('login')),
+                              onPressed: () => controller.emailAndPasswordSignIn(),
+                              child: const Text('login')),
                         ),
                         const SizedBox(
                           height: 16,
