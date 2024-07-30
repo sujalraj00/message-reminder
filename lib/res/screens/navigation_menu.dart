@@ -9,6 +9,7 @@ import 'package:message_reminder/res/screens/home.dart';
 import 'package:message_reminder/res/screens/profile_screen.dart';
 import 'package:message_reminder/res/screens/reminder_page.dart';
 import 'package:message_reminder/res/screens/reminders_screen.dart';
+import 'package:message_reminder/res/screens/settings_screen.dart';
 import 'package:message_reminder/services/theme_services.dart';
 
 import '../../services/notification_services.dart';
@@ -49,8 +50,8 @@ class NavigationMenu extends StatelessWidget {
         //   )
        // ],
       ),
-    //  drawer: const TDrawer(),
-        drawer: NDrawer(),
+     //drawer: const TDrawer(),
+        drawer: const NDrawer(),
 
       bottomNavigationBar: Obx(
         () => NavigationBar(
@@ -76,7 +77,7 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController{
 
   final Rx<int> selectedIndex =0.obs;
-  final screen = [const HomeScreen(), const ProfileScreen(), ReminderPage(), ];
+  final screen = [const HomeScreen(), const SettingsScreen(), ReminderPage(), ];
 }
 
 class NDrawer extends StatefulWidget {
