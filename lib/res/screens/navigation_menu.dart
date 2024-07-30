@@ -49,7 +49,8 @@ class NavigationMenu extends StatelessWidget {
         //   )
        // ],
       ),
-      drawer: const TDrawer(),
+    //  drawer: const TDrawer(),
+        drawer: NDrawer(),
 
       bottomNavigationBar: Obx(
         () => NavigationBar(
@@ -63,7 +64,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
             NavigationDestination(icon: Icon(Iconsax.notification), label: 'Reminders'),
-            NavigationDestination(icon: Icon(Icons.facebook), label: 'Reminders'),
+
           ],),
       ),
       body: Obx(() =>  controller.screen[controller.selectedIndex.value]),
@@ -75,5 +76,44 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController{
 
   final Rx<int> selectedIndex =0.obs;
-  final screen = [const HomeScreen(), const ProfileScreen(), ReminderPage(), FbLogin()];
+  final screen = [const HomeScreen(), const ProfileScreen(), ReminderPage(), ];
+}
+
+class NDrawer extends StatefulWidget {
+  const NDrawer({super.key});
+
+  @override
+  State<NDrawer> createState() => _NDrawerState();
+}
+
+class _NDrawerState extends State<NDrawer> {
+  var notifyHelper;
+  @override
+  void initState() {
+    super.initState();
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Drawer(
+        child: Center(
+        child:  GestureDetector(
+          onTap: (){
+            ThemeService().switchTheme();
+            notifyHelper.displayNotification(
+                title:"Theme Changed",
+                body: Get.isDarkMode ? "Activated Light Theme" : "Activated Daark Theme "
+            );
+            //  notifyHelper.scheduledNotification();
+          },
+          child: Icon(Icons.nightlight_round, size: 20,),
+
+        ),
+      ),
+    );
+  }
 }

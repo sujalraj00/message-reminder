@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:get/get.dart';
+import 'package:message_reminder/Authentication/authentication_repository.dart';
+import 'package:message_reminder/Authentication/network_manager.dart';
+import 'package:message_reminder/res/consts/general_binding.dart';
+import 'package:message_reminder/res/consts/t_colors.dart';
+import 'package:message_reminder/res/screens/splash_page.dart';
 import 'package:message_reminder/services/notification_services.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -15,15 +20,16 @@ import 'package:message_reminder/services/theme_services.dart';
 
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {Get.put(NetworkManager());
+WidgetsFlutterBinding.ensureInitialized();
+
   NotifyHelper().initializeNotification();
   await _configureLocalTimeZone();
   await DBHelper.initDb();
   await GetStorage.init();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+    options: DefaultFirebaseOptions.currentPlatform,
+  ).then((FirebaseApp value) => Get.put(AuthenticationRepository()));
 
   runApp(const MyApp());
 }
@@ -50,7 +56,9 @@ class MyApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      getPages: AppRoutes.getRoutes(),
+      initialBinding: GeneralBindings(),
+      //getPages: AppRoutes.getRoutes(),
+      home: const SplashPage()
     );
   }
 }

@@ -1,120 +1,50 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:message_reminder/res/consts/colors.dart';
-import 'package:message_reminder/res/consts/styles.dart';
-import 'package:velocity_x/velocity_x.dart';
-import '../../controllers/onboarding_controller.dart';
-import '../consts/AppAssets.dart';
-import '../consts/AppString.dart';
+import 'package:message_reminder/controllers/onboarding_controller.dart';
+import 'package:message_reminder/res/consts/t_images.dart';
+import 'package:message_reminder/widgets/onboarding_dot_navigation.dart';
+import 'package:message_reminder/widgets/onboarding_nextbutton.dart';
+import 'package:message_reminder/widgets/onboarding_page.dart';
+import 'package:message_reminder/widgets/onboarding_skip.dart';
 
-class OnBoarding extends GetView<OnBoardingController> {
-  const OnBoarding({super.key});
+
+class OnBoardingScreen extends StatelessWidget {
+  const OnBoardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var titles = [
-      AppString.onboardingTitle0,
-      AppString.onboardingTitle1,
-      AppString.onboardingTitle2
-    ];
+    final controller = Get.put(OnBoardingController());
+    return   Scaffold(
+      body: Stack(
+        children: [
+          // horizontal scrollable page
+          PageView(
+            controller: controller.pageController,
+            onPageChanged: controller.updatePageIndicator,
+            children: const [
+              OnBoardingPage(
+                image:"assets/onboarding/onboard0.png",
+                title: "Choose your product",
+                subTitle:"Welcome to a World of Limitless Choices - Your Perfect Product Awaits!"),
+              OnBoardingPage(
+                image: "assets/onboarding/onboard1.png",
+                title: "Select Payment Method",
+                subTitle:"For Seamless Transactions, Choose Your Payment Path - Your Convenience, Our Priority!"),
+              OnBoardingPage(
+                image: "assets/onboarding/onboard2.png",
+                title: "Deliver at your door step",
+                subTitle: "From Our Doorstep to Yours - Swift, Secure, and Contactless Delivery!"),
+            ],
+          ),
+          // skip button
+          const OnBoardingSkip(),
 
-    var desc = [
-      AppString.onboardingDes0,
-      AppString.onboardingDes1,
-      AppString.onboardingDes2
-    ];
-    return Scaffold(
-      body: PageView.builder(
-          itemCount: 3,
-          controller: controller.pageController,
-          onPageChanged: (value) => controller.changeIndex(value),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(top:  50.0, right: 30 , left: 30),
-              child: Column(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Image.asset(
-                        "${AppAssets.onboarding}$index.png", fit: BoxFit.cover,)),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 20, left: 20, top: 20 ),
-                      child: Column(
-                        children: [
-                          Text(
-                            titles[index],
-                            style: AppStyles().semibold(size: 16),
-                          ),
-                          7.heightBox,
-                          VxBox()
-                              .size(100, 5)
-                              .color(AppColor.primaryButton)
-                              .rounded
-                              .make(),
-                          30.heightBox,
-                          Text(
-                            desc[index],
-                            style: AppStyles()
-                                .semibold(color: AppColor.secondaryText),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextButton(
-                style: TextButton.styleFrom(),
-                onPressed: () {
-                  controller.onContinueOrSkippedPressed();
-                },
-                child: Text(AppString.skip,
-                  style: AppStyles().semibold(color: AppColor.secondaryText),)),
-            Obx(
-                  () =>
-                  Row(
-                      children: List.generate(
-                          3,
-                              (index) =>
-                              VxBox()
-                                  .size(index == controller.currentIndex ? 30 : 5, 5)
-                                  .color(index == controller.currentIndex
-                                  ? AppColor.primaryButton
-                                  : AppColor.sliderDot).margin(const EdgeInsets.symmetric(horizontal: 4))
-                                  .rounded
-                                  .make())),
-            ),
-            Obx(
-                    () =>
-                controller.currentIndex < 2 ?
-                IconButton(
-                  onPressed: controller.changePage(controller.currentIndex),
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: AppColor.secondaryButton,
-                  ),) :
-                TextButton(
-                    onPressed: (){
-                      controller.onContinueOrSkippedPressed();
-                    },
-                    child: Text(
-                      AppString.continueText,
-                      style:
-                      AppStyles().semibold(color: AppColor.secondaryButton),
-                    ))
-            )
-          ],
-        ),
+          // dot navigation smooth page indicator
+          const OnBoardingDotNavigation(),
+
+          // circular button
+          const OnBoardingNextButton( )
+        ],
       ),
     );
   }

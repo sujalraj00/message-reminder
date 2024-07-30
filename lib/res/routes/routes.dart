@@ -16,7 +16,7 @@ class AppRoutes {
 
     GetPage(
         name: RouteName.onboarding,
-        page: () => const OnBoarding(),
+        page: () => const OnBoardingScreen(),
         binding: BindingsBuilder.put(() => OnBoardingController())),
     GetPage(
         name: RouteName.login,

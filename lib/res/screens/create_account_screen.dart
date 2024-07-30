@@ -114,7 +114,7 @@ class SignUpScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           // onPressed: () => controller.signup(),
-                          onPressed: () => Get.to(() => const NavigationMenu()),
+                          onPressed: () => controller.signup(),
                           child: const Text('Create Account'),
                         ),
                       )

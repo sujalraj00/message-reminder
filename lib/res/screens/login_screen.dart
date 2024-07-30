@@ -47,6 +47,7 @@ class LoginScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Form(
+                      key : controller.loginFormKey,
                       child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 32),
                     child: Column(
