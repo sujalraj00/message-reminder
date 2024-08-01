@@ -211,7 +211,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: CircleAvatar(
                     radius: 14,
-                    backgroundColor: index ==0 ? TColors.primary : index ==1 ? Colors.pink : Colors.yellow,
+                    backgroundColor: index ==0 ? TColors.primary : index ==1 ? Colors.pink : Colors.orange,
                     child: _selectedColor ==index?
                     Icon(Icons.done,color: Colors.white, size: 16,)
                         : Container()

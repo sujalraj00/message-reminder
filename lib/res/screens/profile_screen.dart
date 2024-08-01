@@ -6,6 +6,7 @@ import 'package:message_reminder/res/consts/t_images.dart';
 import 'package:message_reminder/widgets/circular_image.dart';
 import 'package:message_reminder/widgets/profile_menu.dart';
 import 'package:message_reminder/widgets/section_heading.dart';
+import 'package:message_reminder/widgets/t_appbar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -14,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(UserController());
     return  Scaffold(
-    //  appBar: const TAppbar(title: Text('Profile'),  showBackArrow: true ,),
+      appBar: const TAppbar(title: Text('Profile'),  showBackArrow: true ,),
 
       // Body-----
       body: SingleChildScrollView(

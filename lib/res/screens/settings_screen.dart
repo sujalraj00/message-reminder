@@ -4,16 +4,22 @@ import 'package:iconsax/iconsax.dart';
 import 'package:message_reminder/Authentication/authentication_repository.dart';
 import 'package:message_reminder/res/consts/t_colors.dart';
 import 'package:message_reminder/res/screens/profile_screen.dart';
+import 'package:message_reminder/res/screens/user_address_screen.dart';
+import 'package:message_reminder/services/notification_services.dart';
+import 'package:message_reminder/services/theme_services.dart';
 import 'package:message_reminder/widgets/primary_header_container.dart';
 import 'package:message_reminder/widgets/section_heading.dart';
 import 'package:message_reminder/widgets/settings_menu_tile.dart';
-import 'package:message_reminder/widgets/t_appbar.dart';
 import 'package:message_reminder/widgets/user_profile_tile.dart';
 
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
-
+   SettingsScreen({super.key})  {
+    _notifyHelper = NotifyHelper();
+    _notifyHelper.initializeNotification();
+    _notifyHelper.requestIOSPermissions();
+  }
+  late final NotifyHelper _notifyHelper;
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AuthenticationRepository());
@@ -37,11 +43,11 @@ class SettingsScreen extends StatelessWidget {
                     // ),
 
                     // User Profile Card
-                    TUserProfileTile(
-                        onPressed: () => Get.to(() => Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: const ProfileScreen(),
-                        ))),
+                    Padding(
+                      padding: const EdgeInsets.only(top:  75, bottom: 10),
+                      child: TUserProfileTile(
+                          onPressed: () => Get.to(() => const ProfileScreen())),
+                    ),
                     const SizedBox(
                       height: 32,
                     ),
@@ -61,12 +67,17 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-
+                  TSettingsMenuTile(
+                    icon: Iconsax.safe_home,
+                    title: 'My Addresses',
+                    subtitle: 'Set shopping delivery address',
+                    onTap: () => Get.to(() => const UserAddressScreen()),
+                  ),
 
                   const TSettingsMenuTile(
                     icon: Iconsax.security_card,
-                    title: 'Account Privacy',
-                    subtitle: 'Manage data usage and connected account',
+                    title: 'Privacy Policy',
+                    subtitle: 'App\'s privacy policy',
                   ),
 
                   // --------- App Setting
@@ -80,26 +91,19 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  const TSettingsMenuTile(
-                    icon: Iconsax.document_upload,
-                    title: 'load Data',
-                    subtitle: 'Upload data to your cloud firebase',
+
+                  TSettingsMenuTile(
+                      icon: Icons.nightlight_round,  title: "Theme", subtitle: "change theme here",
+                    onTap: (){
+    ThemeService().switchTheme();
+    _notifyHelper.displayNotification(
+    title:"Theme Changed",
+    body: Get.isDarkMode ? "Activated Light Theme" : "Activated Dark Theme "
+    );}
                   ),
-                  TSettingsMenuTile(
-                      icon: Iconsax.location,
-                      title: 'Geolocation',
-                      subtitle: 'Set recommendation based on location',
-                      trailing: Switch(value: true, onChanged: (value) {})),
-                  TSettingsMenuTile(
-                      icon: Iconsax.security_user,
-                      title: 'Safe Mode',
-                      subtitle: 'Search result is safe for all ages',
-                      trailing: Switch(value: false, onChanged: (value) {})),
-                  TSettingsMenuTile(
-                      icon: Iconsax.image,
-                      title: 'HD Image Quality',
-                      subtitle: 'Set Image quality to be seen',
-                      trailing: Switch(value: false, onChanged: (value) {})),
+
+                  TSettingsMenuTile(icon: Icons.help, title: "Contact Us", subtitle: "at nurdatabase2@gmail.com"),
+
 
                   // --------- LogOut button
                   const SizedBox(
