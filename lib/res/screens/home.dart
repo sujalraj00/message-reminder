@@ -20,8 +20,13 @@ class HomeScreen extends StatelessWidget {
         return TColors.primary;
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     remindController.getReminders();
 
     return Scaffold(
@@ -47,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                   itemCount: reminders.length,
                   itemBuilder: (context, index) {
                     Reminders reminder = reminders[index];
-                    return ReminderCard( color: _getBGClr(reminder?.color??0),
+                    return ReminderCard( color: _getBGClr(reminder.color??0),
                         contactName: reminder.title ?? 'No Title',
                         time: reminder.startTime ?? '',
                         messagePreview: reminder.note ?? 'No Note');
@@ -55,9 +60,12 @@ class HomeScreen extends StatelessWidget {
                 )
                     : const Center(
                   child: Card( shadowColor: Colors.grey, elevation: 0.2,
-                    child: Text(
-                      'No reminders set',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'No reminders set',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
                     ),
                   ),
                 ),
@@ -72,9 +80,9 @@ class HomeScreen extends StatelessWidget {
                 passedReminders.isNotEmpty
                     ? ListView.builder(
                   shrinkWrap: true,
-                  itemCount: reminders.length,
+                  itemCount: passedReminders.length,
                   itemBuilder: (context, index) {
-                    Reminders reminder = reminders[index];
+                    Reminders reminder = passedReminders[index];
                     return ReminderCard( color: Colors.purple[100]!,
                         contactName: reminder.title ?? 'No Title',
                         time: reminder.startTime ?? '',
@@ -83,9 +91,12 @@ class HomeScreen extends StatelessWidget {
                 )
                     : const Center(
                   child: Card( shadowColor: Colors.grey, elevation: 0.2,
-                    child: Text(
-                      'Nothing Missed',
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Nothing Missed',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
                     ),
                   ),
                 ),
@@ -172,6 +183,7 @@ class HomeScreen extends StatelessWidget {
     return upcomingReminders.take(4).toList();
   }
 
+  // fetching passed reminder  list
   List<Reminders> fetchPassedReminders(List<Reminders> reminders) {
     DateTime now = DateTime.now();
     print('Current time: $now');
@@ -182,6 +194,8 @@ class HomeScreen extends StatelessWidget {
         DateTime reminderDateTime = parseReminderDateTime(reminder.date!, reminder.startTime!);
         print('Checking reminder: ${reminder.title}, DateTime: $reminderDateTime, Now: $now');
         if (reminderDateTime.isBefore(now)) {
+          print('Reminder ${reminder.title} has passed.');
+          print(reminder);
           passedReminders.add(reminder);
         } else {
           print('Reminder ${reminder.title} is in the future and will not be included.');
@@ -198,9 +212,12 @@ class HomeScreen extends StatelessWidget {
       return dateTimeA.compareTo(dateTimeB);
     });
 
-    print('Upcoming Reminders: $passedReminders');
-    return passedReminders.take(3).toList();
+    print('Passed Reminders: $passedReminders');
+    return passedReminders.take(3).toList(); // Adjust if you want more or fewer reminders.
   }
+
+
+
 }
 
 class ReminderCard extends StatelessWidget {
@@ -228,6 +245,7 @@ class ReminderCard extends StatelessWidget {
                 icon: Icon(Icons.send, color: TColors.white.withOpacity(0.9)),
                 onPressed: () {
                   // Send message
+                  Share.share(messagePreview);
                 },
               ),
              

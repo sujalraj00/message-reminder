@@ -4,7 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:message_reminder/res/consts/t_colors.dart';
 import 'package:message_reminder/res/helper/helper_function.dart';
 import 'package:message_reminder/res/screens/create_account_screen.dart';
-
+import 'package:message_reminder/res/screens/forget_password_screen.dart';
+import 'package:message_reminder/res/screens/reset_password_screen.dart';
 import '../../controllers/login_controller.dart';
 import '../../widgets/form_divider.dart';
 import '../../widgets/social_buttons.dart';
@@ -99,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             // forget pass
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () => Get.to(() => const ForgetPassword()),
                                 child: const Text('forget password'))
                           ],
                         ),

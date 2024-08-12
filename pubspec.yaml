@@ -49,7 +49,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   permission_handler: ^10.2.0
   share_plus: ^10.0.0
-
+  share: 2.0.1
 
   #authentication
   flutter_facebook_auth: ^7.0.1
