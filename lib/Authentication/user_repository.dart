@@ -1,7 +1,11 @@
 // repos class for user related information
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:message_reminder/Authentication/authentication_repository.dart';
 import 'package:message_reminder/Authentication/firebase_exception.dart';
 import 'package:message_reminder/Authentication/format_exception.dart';
@@ -94,4 +98,21 @@ class UserRepository extends GetxController{
     }
   }
 
+  // upload any image
+  Future<String> uploadImage(String path, XFile image) async{
+    try{
+      final ref = FirebaseStorage.instance.ref(path).child(image.name);
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      return url;
+    } on FirebaseException catch(e) {
+      throw TFirebaseException(e.code).message;
+    } on TFormatException catch (_) {
+      throw const FormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }

@@ -46,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top:  75, bottom: 10),
                       child: TUserProfileTile(
-                          onPressed: () => Get.to(() => const ProfileScreen())),
+                          onPressed: () => Get.to(() => ProfileScreen())),
                     ),
                     const SizedBox(
                       height: 32,
