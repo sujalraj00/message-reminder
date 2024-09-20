@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:message_reminder/Authentication/authentication_repository.dart';
+import 'package:message_reminder/Authentication/privacy_policy_webview.dart';
+import 'package:message_reminder/Authentication/webView.dart';
 import 'package:message_reminder/res/consts/t_colors.dart';
 import 'package:message_reminder/res/screens/profile_screen.dart';
 import 'package:message_reminder/res/screens/user_address_screen.dart';
@@ -11,7 +13,7 @@ import 'package:message_reminder/widgets/primary_header_container.dart';
 import 'package:message_reminder/widgets/section_heading.dart';
 import 'package:message_reminder/widgets/settings_menu_tile.dart';
 import 'package:message_reminder/widgets/user_profile_tile.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 
 class SettingsScreen extends StatelessWidget {
    SettingsScreen({super.key})  {
@@ -23,6 +25,10 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AuthenticationRepository());
+   // final controllerWeb = Get.put(WebViewEx());
+    final controllerWeb = WebViewController()..setJavaScriptMode(JavaScriptMode.disabled)
+    ..loadRequest(Uri.parse('https://flutter.dev'));
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -46,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top:  75, bottom: 10),
                       child: TUserProfileTile(
-                          onPressed: () => Get.to(() => ProfileScreen())),
+                          onPressed: () => Get.to(() => const ProfileScreen())),
                     ),
                     const SizedBox(
                       height: 32,
@@ -74,10 +80,11 @@ class SettingsScreen extends StatelessWidget {
                     onTap: () => Get.to(() => const UserAddressScreen()),
                   ),
 
-                  const TSettingsMenuTile(
+                   TSettingsMenuTile(
                     icon: Iconsax.security_card,
                     title: 'Privacy Policy',
                     subtitle: 'App\'s privacy policy',
+                    onTap: () => Get.to(() => PrivacyPolicyWebView())
                   ),
 
                   // --------- App Setting
@@ -102,7 +109,7 @@ class SettingsScreen extends StatelessWidget {
     );}
                   ),
 
-                  TSettingsMenuTile(icon: Icons.help, title: "Contact Us", subtitle: "at nurdatabase2@gmail.com"),
+                  const TSettingsMenuTile(icon: Icons.help, title: "Contact Us", subtitle: "at nurdatabase2@gmail.com"),
 
 
                   // --------- LogOut button

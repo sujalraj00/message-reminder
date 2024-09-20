@@ -46,7 +46,7 @@ class SocialButtons extends StatelessWidget {
             // onPressed: () {
             //   FireBaseAuthMethods(FirebaseAuth.instance).signInWithFacebook(context);
             // },
-            onPressed: () => controller.signInWithFacebook(context),
+            onPressed: () {},
             icon: const Image(
               width: 24,
               height: 24,
